@@ -1,56 +1,97 @@
 <template>
-    <s-form :search-lists="searchItem" :option-link-map="optionLinkMap" @search="getInstanceList"></s-form>
+    <div>
+        <s-form name="form" :components="components" :rules="rules"  @valid="valid">
+
+        </s-form>
+    </div>
 </template>
 
 <script>
-    import SForm from "@/view/form/components/Sform"
-    // import Input from "@/views/form/components/Input"
-    // import Select from "@/views/form/components/Select"
-    // import SelectOption from "@/views/form/components/SelectOption"
-    
-    // Vue.prototype.$bus = new Vue();
+    import SForm from "./components/Sform"
 
-    // Vue.component('y-form', Form);
-    // Vue.component('y-input', Input);
-    // Vue.component('y-select', Select);
-    // Vue.component('y-option', SelectOption);
     export default {
         name: 'formComponent',
         data() {
             return {
-                searchItem: [
+                components: [
                     {
-                        searchParam: 'project',
+                        field: {
+                            name: 'project',
+                            type: 'string'
+                        },
                         type: 'select',
                         label: '项目',
                         defaultShow: true,
                         multiple: true,
                         filterable: true,
-                        loading: true,
-                        remote: true,
-                        options: 'project',
+                        options: [
+                            {
+                                label: '大湾区',
+                                value: '0'
+                            },
+                            {
+                                label: '海珠区',
+                                value: 1
+                            }
+                        ],
                         permission: () => {
-                            return this.isAdmin
+                            return true
                         }
                     },
                     {
-                        searchParam: 'dc_code',
+                        field: {
+                            name: 'dc_code',
+                            type: 'array'
+                        },
                         type: 'selectGroup',
                         label: '区域',
                         multiple: true,
-                        filterable: true,
-                        loading: true,
-                        options: 'area'
+                        _data: 'label',
+                        options: [
+                            {
+                                label: '广东',
+                                options: [
+                                    {
+                                        label: 'guangdong',
+                                        value: '0'
+                                    }
+                                ]
+                            },
+                            {
+                                label: '北京',
+                                options: [
+                                    {
+                                        label: 'beijing',
+                                        value: '1'
+                                    }
+                                ]
+                            },
+                        ]
                     },
                     {
+                        field: {
+                            name: 'id',
+                            type: 'string'
+                        },
                         type: 'input',
                         label: '实例ID',
-                        searchParam: 'id'
                     },
                     {
-                        searchParam: 'use_case',
+                        field: {
+                            name: 'isOpen',
+                            type: 'string'
+                        },
+                        type: 'switch',
+                        label: '开关'
+                    },
+                    {
+                        field: {
+                            name: 'use_case',
+                            type: 'string'
+                        },
                         type: 'radioButton',
                         label: '用途',
+                        _data: 'value',
                         options: [
                             {
                                 value: '1',
@@ -63,9 +104,13 @@
                         ]
                     },
                     {
-                        searchParam: 'status',
+                        field: {
+                            name: 'status',
+                            type: 'string'
+                        },
                         type: 'radioButton',
                         label: '状态',
+                        _data: 'label',
                         options: [
                             {
                                 value: '3',
@@ -78,9 +123,23 @@
                         ]
                     }
                 ],
-                optionLinkMap: {
-                    area: [],
-                    project: []
+                rules: {
+                    project: [
+                        { required: true, message: '请输入活动名称', trigger: 'blur' },
+                        { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                    ],
+                    dc_code: [
+                        { required: true, message: '请选择活动区域', trigger: 'change' }
+                    ],
+                    id: [
+                        {required: true, message: '请选择日期', trigger: 'change' }
+                    ],
+                    use_case: [
+                        {  required: true, message: '请选择时间', trigger: 'change' }
+                    ],
+                    status: [
+                        { required: true, message: '请至少选择一个活动性质', trigger: 'change' }
+                    ]
                 }
             }
         },
@@ -88,20 +147,20 @@
             SForm
         },
         methods: {
-            valid(isPass) {
+            valid({isPass, fields}) {
                 isPass && this.$message({
                     message: '保存成功',
                     type: 'success'
                 });
-            },
-            getInstanceList() {
-
+                console.log(fields);
             }
         }
     }
 </script>
-<style scoped>
-    .el-form {
-        padding: 10px
+<style>
+    div, input, select {
+        margin: 0;
+        padding: 0;
     }
 </style>
+
