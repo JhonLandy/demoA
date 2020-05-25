@@ -6,23 +6,21 @@
         label-width="80px"
         @submit.native.prevent
     >
-        <el-form-item
+        <form-component
             v-for="config in list"
             :key="config.field.name"
-            :prop="config.field.name"
+            :type="config.type"
+            :options="config.options"
+            v-model="form[config.field.name]"
             :label="config.label"
+            :prop="config.field.name"
+            :controlled="expression(config.controlled)"
         >
-            <form-component
-                :type="config.type"
-                :config="config"
-                v-model="form[config.field.name]"
-            ></form-component>
-        </el-form-item>
+        </form-component>
     </el-form>
 </template>
 <script>
     import FormComponent from './FormComponent'
-
 
     function dataType(type)  {
         switch (true) {
@@ -35,7 +33,7 @@
         }
     }
     export default {
-        name: 'SForm',
+        name: 'NetForm',
         props: {
             name: {
                 type: String,
@@ -81,6 +79,13 @@
                     }
                     this.$emit('valid', data)
                 })
+            },
+            expression(express) {
+               return new Function(`
+                    with(this.form) {
+                        return ${express}
+                    }
+               `).call(this)
             }
         },
         components: {

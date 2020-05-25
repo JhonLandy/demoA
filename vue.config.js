@@ -1,5 +1,5 @@
 module.exports = {
-    publicPath: '/page',
+    publicPath: '/form/index',
     runtimeCompiler: true,
     devServer: {
         proxy: {

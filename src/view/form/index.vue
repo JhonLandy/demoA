@@ -1,13 +1,13 @@
 <template>
     <div>
-        <s-form name="form" :components="components" :rules="rules"  @valid="valid">
+        <net-form name="form" :components="components" :rules="rules"  @valid="valid">
 
-        </s-form>
+        </net-form>
     </div>
 </template>
 
 <script>
-    import SForm from "./components/Sform"
+    import NetForm from "./components/NetForm"
 
     export default {
         name: 'formComponent',
@@ -75,6 +75,7 @@
                         },
                         type: 'input',
                         label: '实例ID',
+                        controlled: 'isOpen'
                     },
                     {
                         field: {
@@ -111,6 +112,7 @@
                         type: 'radioButton',
                         label: '状态',
                         _data: 'label',
+                        controlled: '!isOpen',
                         options: [
                             {
                                 value: '3',
@@ -144,7 +146,7 @@
             }
         },
         components: {
-            SForm
+            NetForm
         },
         methods: {
             valid({isPass, fields}) {

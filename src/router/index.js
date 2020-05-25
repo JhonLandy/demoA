@@ -38,6 +38,11 @@ const routes = [
                     login: true
                 }
             },
+            {
+                name: 'form',
+                path: '/form/index',
+                component: () => import('@/view/form/index')
+            }
         ]
     }
 ];
