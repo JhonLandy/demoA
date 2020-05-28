@@ -1,117 +1,65 @@
 <template>
-    <div>
-        <el-table
-            :data="tableData"
-            style="width: 100%;margin-top:5px"
-            @cell-click="rowClick"
-            border
-        >
-            <el-table-column
-                type="index"
-                label="序号"
-                width="60"
-            >
-            </el-table-column>
-            <el-table-column
-                prop="date"
-                label="日期"
-                width="180"
-            >
-                <template v-slot="{row}">
-                    <row-element k="date" :row="row" :nowId.sync="nowId" :cell="cell"></row-element>
-                </template>
-            </el-table-column>
-            <el-table-column
-                prop="name"
-                label="姓名"
-                width="180"
-            >
-                <template v-slot="{row}">
-                    <row-element k="name" :row="row" :nowId.sync="nowId" :cell="cell"></row-element>
-                </template>
-            </el-table-column>
-            <el-table-column
-                prop="address"
-                label="地址"
-            >
-                <template v-slot="{row}">
-                    <row-element k="address" :row="row" :nowId.sync="nowId" :cell="cell"></row-element>
-                </template>
-            </el-table-column>
-            <el-table-column
-                prop="option"
-                label="操作"
-            >
-                <el-button type="danger">删除</el-button>
-    <!--            <he> <el-button type="primary">编辑</el-button>-->
-    <!--                <el-button type="danger">删除</el-button></he>-->
-            </el-table-column>
-        </el-table>
-    </div>
+    <net-table :data="data" :column="column" :instance="instance"/>
 </template>
 <script>
-    // import He from './HelloWorld'
-    // import RowElement from "./RowElement";
-    import Http from "../../service/Http";
-    const  RowElement = {
-        props: {
-            row: {
-                type: Object,
-                default: ()=> {}
-            },
-            k: {
-                type: String,
-                default: ""
-            },
-            nowId: {
-                type: Number,
-                default: 0
-            },
-            cell: {
-                type: String,
-                default: ""
-            }
-        },
-        updated() {
-            if (this.$refs.input && this.cell == this.k) this.$refs.input.focus();
-        },
-        methods: {
-            doBlur() {
-                    this.$emit("update:nowId",0);
-                    Http.post("/ycl/saveTableData", this.row).then(({data}) => {
-                        this.$message(data);
-                    });
-                }
-            },
-            template:`
-            <div>
-                <el-input ref="input" v-model="row[k]" @blur="doBlur" v-show="k === cell && nowId === row.id"></el-input>
-                <span v-show="k !== cell || nowId !== row.id">{{row[k]}}</span>
-            </div>`
-    }
+     import NetTable from './components/NetTable'
      const Table = {
         name: 'tables',
         data() {
             return {
-                nowId: 0,
-                cell: '',
-                tableData:[]
-            }
-        },
-        created() {
-            Http.get("/ycl/getTableData").then(({data}) => {
-                this.tableData = data;
-            });
-        },
-        methods: {
-            rowClick(...param) {
-                this.nowId = param[0].id;
-                this.cell = param[1].property;
+                column: [
+                    {
+                        type: 1,
+                        label: '序号',
+                        prop: 'order',
+                        template:  `<el-button  type="primary">asasas</el-button>`
+                    },
+                    {
+                        type: 2,
+                        label: '姓名',
+                        prop: 'name'
+                    },
+                    {
+                        type: 3,
+                        label: '性别',
+                        prop: 'sex'
+                    },
+                    {
+                        type: 4,
+                        label: '住址',
+                        prop: 'address'
+                    }
+                ],
+                data: [
+                    {
+                        order: Date.now(),
+                        name: '小明',
+                        sex: '男',
+                        address: '广州'
+                    },
+                    {
+                        order: Date.now(),
+                        name: '小红',
+                        sex: '男',
+                        address: '佛山'
+                    },
+                    {
+                        order: Date.now(),
+                        name: '小白',
+                        sex: '男',
+                        address: '深圳'
+                    },
+                    {
+                        order: Date.now(),
+                        name: '小空',
+                        sex: '男',
+                        address: '北京'
+                    }
+                ]
             }
         },
         components: {
-            // He
-            RowElement
+            NetTable
         }
     }
     export default Table;

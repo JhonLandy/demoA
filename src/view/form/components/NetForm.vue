@@ -14,6 +14,7 @@
             v-model="form[config.field.name]"
             :label="config.label"
             :prop="config.field.name"
+            :multiple="config.multiple"
             :controlled="expression(config.controlled)"
         >
         </form-component>
@@ -50,7 +51,9 @@
         },
         data() {
           return {
-              form: {},
+              form: {
+                  isOpen: true
+              },
               list: [],
           }
         },
@@ -81,7 +84,7 @@
                 })
             },
             expression(express) {
-               return new Function(`
+               return express && new Function(`
                     with(this.form) {
                         return ${express}
                     }
