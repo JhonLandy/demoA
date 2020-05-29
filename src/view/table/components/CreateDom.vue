@@ -5,15 +5,24 @@
         props: {
             instance: {
                 type: Object,
-                default: null
+                default: () => {}
             },
             template: {
-                type: String,
                 default: ''
+            },
+            scope: {
+                type: Object,
+                default: () => {}
             }
         },
         render() {
-            return Vue.compile(this.template).render.call(this.instance)
+            let template
+            if (typeof this.template === 'function') {
+                template = this.template(this.scope) || '你使用了template函数方式，返回值为undefined'
+            } else {
+                template = this.template
+            }
+            return Vue.compile(template).render.call(this.instance)
         }
     }
 </script>
