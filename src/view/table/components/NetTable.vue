@@ -12,10 +12,12 @@
                     :page-sizes="limitGroup"
                     :total="total"
                     layout="total, sizes, prev, pager, next, jumper"
+                    @size-change="onSize"
+                    @current-change="onCurrent"
                 ></el-pagination>
             </div>
         </div>
-        <el-table :data="data" border>
+        <el-table v-bind="$attrs" v-on="$listeners">
             <el-table-column
                 v-for="{id, label, width, prop, template} in column"
                 :key="id"
@@ -24,7 +26,7 @@
                 :prop="prop"
             >
                 <template v-slot="scope" v-if="template">
-                   <create-dom :instance="$parent" :template="template" :scope="scope" ></create-dom>
+                   <create-dom :template="template" :scope="scope"></create-dom>
                 </template>
             </el-table-column>
         </el-table>
@@ -53,11 +55,12 @@
 
     export default {
         name: "NetTable",
+        provide() {
+            return {
+                instance: this.$parent
+            }
+        },
         props: {
-            data: {
-                type: Array,
-                default: () => []
-            },
             column: {
                 type: Array,
                 default: () => []
@@ -73,11 +76,10 @@
             limitGroup: {
                 type: Array,
                 default: () => [10, 20, 30, 50]
-            }
-        },
-        data() {
-            return {
-                total: this.data.length
+            },
+            total: {
+                required: true,
+                type: Number
             }
         },
         computed: {
@@ -108,6 +110,9 @@
             onCurrent(val) {
                 this.currentPage = val
             }
+        },
+        mounted() {
+            console.log(this)
         }
     }
 </script>

@@ -2,11 +2,8 @@
     import Vue from  'vue'
     export default {
         name: "CreateDom",
+        inject: ['instance'],
         props: {
-            instance: {
-                type: Object,
-                default: () => {}
-            },
             template: {
                 default: ''
             },

@@ -1,5 +1,13 @@
 <template>
-    <net-table :data="data" :column="column" :page.sync="page" :limit.sync="limit">
+    <net-table
+        :data="list"
+        :total="total"
+        :column="column"
+        :page.sync="page"
+        :limit.sync="limit"
+        border
+        @row-dblclick="doRecover"
+    >
         <template v-slot:toolbarT>
             <el-button size="small" >刷新</el-button>
         </template>
@@ -17,6 +25,7 @@
                 isAdmin: true,
                 page: 1,
                 limit: 10,
+                total: 100,
                 column: [
                     {
                         id: 1,
@@ -84,18 +93,37 @@
                         }
                     }
                 ],
-                data: []
+                data: [],
+                list: []
             }
         },
+         watch: {
+            page: function (val) {
+                this.getData(val, this.limit)
+            },
+             limit: function (val) {
+                 this.getData(this.page, val)
+             }
+         },
         created() {
             for (let i = 0;i < 100;i++) {
                 this.data.push({
                     order: i,
                     name: "小明"+i,
                     ip: '192.168.'+(i +1),
-                    status: Math.round(Math.random())
+                    status: '1'
                 })
             }
+             this.getData = function (page, size) {
+                let start = (page-1)*size
+                let end = page*size - 1
+                 let temp = []
+                for (let i = start;i <= end;i++) {
+                    temp.push(this.data[i])
+                }
+                this.list = temp
+            }
+            this.getData(this.page, this.limit)
         },
         components: {
             NetTable
