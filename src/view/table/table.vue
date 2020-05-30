@@ -86,7 +86,7 @@
                             //可以直接写字符串, 需要用到表格数据使用函数方式
                             return `
                                 <div slot-scope="scope">
-                                    <el-button type="success" @click="doRecover(data[${scope.$index}])" size="medium">启动</el-button>
+                                    <el-button type="success" @click="doRecover(list[${scope.$index}])" size="medium">启动</el-button>
                                     <el-button type="danger" @click="doDel" size="medium">删除</el-button>
                                 </div>
                             `
