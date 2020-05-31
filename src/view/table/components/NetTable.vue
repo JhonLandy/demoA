@@ -26,7 +26,9 @@
                 :prop="prop"
             >
                 <template v-slot="scope" v-if="template">
-                   <create-dom :template="template" :scope="scope"></create-dom>
+                    <Provider :instance="$parent">
+                        <create-dom :template="template" :data="scope"></create-dom>
+                    </Provider>
                 </template>
             </el-table-column>
         </el-table>
@@ -52,14 +54,9 @@
 
 <script>
     import CreateDom from './CreateDom'
-
+    import Provider from './Provider'
     export default {
         name: "NetTable",
-        provide() {
-            return {
-                instance: this.$parent
-            }
-        },
         props: {
             column: {
                 type: Array,
@@ -101,7 +98,8 @@
             }
         },
         components: {
-            CreateDom
+            CreateDom,
+            Provider
         },
         methods: {
             onSize(val) {
@@ -110,9 +108,6 @@
             onCurrent(val) {
                 this.currentPage = val
             }
-        },
-        mounted() {
-            console.log(this)
         }
     }
 </script>
