@@ -2,15 +2,20 @@
     import Vue from  'vue'
     export default {
         name: "CreateDom",
-        inject: ['instance'],
         render() {
-            let {template, data} = this.$attrs
-            if (typeof template === 'function') {
-                template = template(data) || '你使用了template函数方式，返回值为undefined'
-            } else {
-                template = template || '请给组件输入模版内容'
+            let {template, data, instance} = this.$attrs
+            if (!instance) {
+                console.error("CreateDom组件找不到组件实例instance，无法渲染！")
+                return
             }
-            return Vue.compile(template).render.call(this.instance)
+            if (typeof template === 'function') {
+                template = template(data)
+            }
+            if (!template) {
+                console.error("CreateDom组件找不到模版内容template，请检查！")
+                return
+            }
+            return Vue.compile(template).render.call(instance)
         }
     }
 </script>

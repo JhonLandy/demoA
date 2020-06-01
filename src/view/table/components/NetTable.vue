@@ -26,9 +26,7 @@
                 :prop="prop"
             >
                 <template v-slot="scope" v-if="template">
-                    <Provider :instance="$parent">
-                        <create-dom :template="template" :data="scope"></create-dom>
-                    </Provider>
+                    <create-dom :instance="$parent"  :template="template" :data="scope"></create-dom>
                 </template>
             </el-table-column>
         </el-table>
@@ -54,7 +52,6 @@
 
 <script>
     import CreateDom from './CreateDom'
-    import Provider from './Provider'
     export default {
         name: "NetTable",
         props: {
@@ -98,8 +95,7 @@
             }
         },
         components: {
-            CreateDom,
-            Provider
+            CreateDom
         },
         methods: {
             onSize(val) {
