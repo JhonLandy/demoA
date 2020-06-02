@@ -2,13 +2,16 @@
     <net-table
         :data="list"
         :total="total"
-        :column="column"
+        :column.sync="column"
         :page.sync="page"
         :limit.sync="limit"
+        :v-loading="loading"
         border
-        @row-dblclick="doRecover"
+        :allow-check="true"
+        @row-dblclick="dbClick"
     >
         <template v-slot:toolbarT>
+            {{ok}}
             <el-button size="small" >刷新</el-button>
         </template>
         <template v-slot:toolbarB>
@@ -29,17 +32,20 @@
                 column: [
                     {
                         id: 1,
-                        label: '序号',
-                        prop: 'order',
+                        $attrs: {
+                            label: '序号',
+                            prop: 'order',
+                        },
                         template: `
                              <el-tag type="warning" size="small">${Date.now()}</el-tag>
                         `
                     },
-
                     {
                         id: 2,
-                        label: '申请人',
-                        prop: 'name',
+                        $attrs: {
+                            label: '申请人',
+                            prop: 'name'
+                        },
                         template: function (scope) {
                             //可以直接写字符串, 需要用到表格数据使用函数方式
                             return `
@@ -52,8 +58,10 @@
                     },
                     {
                         id: 3,
-                        label: 'ip地址',
-                        prop: 'ip',
+                        $attrs: {
+                            label: 'ip地址',
+                            prop: 'ip'
+                        },
                         template: function (scope) {
                             //可以直接写字符串, 需要用到表格数据使用函数方式
                             return `
@@ -66,8 +74,10 @@
                     },
                     {
                         id: 4,
-                        label: '流程状态',
-                        prop: 'status',
+                        $attrs: {
+                            label: '流程状态',
+                            prop: 'status'
+                        },
                         template: function (scope) {
                             //可以直接写字符串, 需要用到表格数据使用函数方式
                             return `
@@ -80,13 +90,15 @@
                     },
                     {
                         id: 5,
-                        label: '操作',
-                        prop: 'operation',
+                        $attrs: {
+                            label: '操作',
+                            prop: 'operation',
+                        },
                         template: function (scope) {
                             //可以直接写字符串, 需要用到表格数据使用函数方式
                             return `
                                 <div slot-scope="scope">
-                                    <el-button type="success" @click="doRecover(list[${scope.$index}])" size="medium">启动</el-button>
+                                    <el-button type="success" @click="doRecover(list[${scope.$index}])" size="medium">通过</el-button>
                                     <el-button type="danger" @click="doDel" size="medium">删除</el-button>
                                 </div>
                             `
@@ -97,6 +109,11 @@
                 list: []
             }
         },
+         computed: {
+             ok() {
+                 return this.$store.getters.name
+             }
+         },
          watch: {
             page: function (val) {
                 this.getData(val, this.limit)
@@ -105,30 +122,30 @@
                  this.getData(this.page, val)
              }
          },
-        created() {
+         created() {
             for (let i = 0;i < 100;i++) {
                 this.data.push({
                     order: i,
                     name: "小明"+i,
                     ip: '192.168.'+(i +1),
-                    status: '1'
+                    status: '0'
                 })
             }
-             this.getData = function (page, size) {
-                let start = (page-1)*size
-                let end = page*size - 1
+             this.getData = (page, size) => {
+                 let start = (page-1)*size
+                 let end = page*size - 1
                  let temp = []
-                for (let i = start;i <= end;i++) {
+                 for (let i = start;i <= end;i++) {
                     temp.push(this.data[i])
                 }
                 this.list = temp
             }
             this.getData(this.page, this.limit)
-        },
-        components: {
-            NetTable
-        },
-        methods: {
+         },
+         components: {
+                NetTable
+            },
+         methods: {
             doDel() {
                 this.$message({
                     message: '删除成功！',
@@ -136,11 +153,19 @@
                 })
             },
              doRecover(data) {
-                data.status = 1//地址引用问题，可触发子组件table更新,一般情况可用，特殊情况不推荐
+                data.status = '1'//地址引用问题，可触发子组件table更新,一般情况可用，特殊情况不推荐
                 this.$message({
-                    message: '恢复成功！',
+                    message: '通过审批！',
                     type: 'success'
                 })
+             },
+             dbClick() {
+                this.$store.dispatch('setA', 'fuck')
+
+                 this.$message({
+                     message: '你双击了！',
+                     type: 'success'
+                 })
              }
          }
      }
