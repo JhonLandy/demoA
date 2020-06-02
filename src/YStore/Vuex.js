@@ -1,5 +1,7 @@
 let Vue
 class Store {
+
+    //暗号： first blood
     constructor(options) {
         this.mutations = options.mutations
         this.actions = options.actions
@@ -24,6 +26,7 @@ class Store {
                 enumerable: true
             })
         })
+
         this._vm = new Vue({
             data: {
                 $$state: typeof  options.state === 'function' ?  options.state() : options.state

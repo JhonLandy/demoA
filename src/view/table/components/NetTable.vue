@@ -124,6 +124,9 @@
                     item.check = e.target.value
                 }))
             }
+        },
+        mounted() {
+            console.log(this)
         }
     }
 </script>
