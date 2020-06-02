@@ -19,14 +19,25 @@
         </div>
         <el-table v-bind="$attrs" v-on="$listeners">
             <el-table-column
-                v-for="{id, label, width, prop, template} in column"
+                v-if="allowCheck"
+                width="50"
+                align="center"
+            >
+                <el-checkbox name="type"></el-checkbox>
+                <template v-slot:header>
+                    <el-checkbox name="type" @change="checkAll"></el-checkbox>
+                </template>
+            </el-table-column>
+            <el-table-column
+                v-for="{id, template, $attrs, header} in column"
                 :key="id"
-                :label="label"
-                :width="width"
-                :prop="prop"
+                v-bind="$attrs"
             >
                 <template v-slot="scope" v-if="template">
-                    <create-dom :instance="$parent"  :template="template" :data="scope"></create-dom>
+                    <CreateDom :instance="$parent" :template="template" :data="scope" />
+                </template>
+                <template v-slot:header v-if="header">
+                    <CreateDom :instance="$parent" :template="header"/>
                 </template>
             </el-table-column>
         </el-table>
@@ -74,6 +85,10 @@
             total: {
                 required: true,
                 type: Number
+            },
+            allowCheck: {
+                type: Boolean,
+                default: false
             }
         },
         computed: {
@@ -103,6 +118,11 @@
             },
             onCurrent(val) {
                 this.currentPage = val
+            },
+            checkAll(e) {
+                this.$emit('update:column', this.column.map(item => {
+                    item.check = e.target.value
+                }))
             }
         }
     }
@@ -112,6 +132,6 @@
     .frame {
         display: flex;
         justify-content: space-between;
-        padding: 20px 0;
+        padding: 15px 0;
     }
 </style>
