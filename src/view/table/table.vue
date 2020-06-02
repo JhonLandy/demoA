@@ -100,7 +100,6 @@
          watch: {
             page: function (val) {
                 this.getData(val, this.limit)
-                console.log('page')
             },
              limit: function (val) {
                  this.getData(this.page, val)
