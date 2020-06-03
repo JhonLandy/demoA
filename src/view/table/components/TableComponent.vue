@@ -21,8 +21,7 @@ export default  {
        },
         content: {
            default: ''
-        },
-
+        }
     }
 }
 </script>

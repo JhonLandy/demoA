@@ -2,7 +2,7 @@
     <div>
         <div class="frame">
             <div class="toolbar">
-                <slot name="toolbarT"></slot>
+                <slot name="toolbarT" :events="events"></slot>
             </div>
             <div class="pagination">
                 <el-pagination
@@ -19,13 +19,14 @@
         </div>
         <el-table v-bind="$attrs" v-on="$listeners">
             <el-table-column
-                v-if="allowCheck"
-                width="50"
-                align="center"
+                v-if="checked"
+                v-bind="checked.$attrs"
             >
-                <el-checkbox name="type"></el-checkbox>
+                <template v-slot="scope">
+                    <el-checkbox name="type" @change="checkSingle(scope)" :value="scope.row.checked"></el-checkbox>
+                </template>
                 <template v-slot:header>
-                    <el-checkbox name="type" @change="checkAll"></el-checkbox>
+                    <el-checkbox name="type" @change="checkAll" :value="isChecked"></el-checkbox>
                 </template>
             </el-table-column>
             <el-table-column
@@ -34,16 +35,16 @@
                 v-bind="$attrs"
             >
                 <template v-slot="scope" v-if="template">
-                    <CreateDom :instance="$parent" :template="template" :data="scope" />
+                    <CreateDom  v-on="$listeners" :template="template" :data="scope" />
                 </template>
                 <template v-slot:header v-if="header">
-                    <CreateDom :instance="$parent" :template="header"/>
+                    <CreateDom  v-on="$listeners" :template="header"/>
                 </template>
             </el-table-column>
         </el-table>
         <div class="frame">
             <div class="toolbar">
-                <slot name="toolbarB"></slot>
+                <slot name="toolbarB" :events="events"></slot>
             </div>
             <div class="pagination">
                 <el-pagination
@@ -86,9 +87,14 @@
                 required: true,
                 type: Number
             },
-            allowCheck: {
-                type: Boolean,
-                default: false
+            checked: {
+                type: Object,
+                default: () => {}
+            }
+        },
+        data() {
+            return {
+                isChecked: ''
             }
         },
         computed: {
@@ -109,9 +115,6 @@
                 }
             }
         },
-        components: {
-            CreateDom
-        },
         methods: {
             onSize(val) {
                 this.size = val
@@ -119,14 +122,25 @@
             onCurrent(val) {
                 this.currentPage = val
             },
-            checkAll(e) {
-                this.$emit('update:column', this.column.map(item => {
-                    item.check = e.target.value
-                }))
+            checkAll(value) {
+                this.$attrs.data.forEach(item => {
+                    item.checked = this.isChecked = value
+                })
+            },
+            checkSingle({row}) {
+                row.checked = !row.checked
+                if (!row.checked) {
+                    this.isChecked = false
+                } else {
+                    this.isChecked = this.$attrs.data.every(item => item.checked)
+                }
+            },
+            events(name) {
+                this.$emit(name, [...this.$attrs.data])
             }
         },
-        mounted() {
-            console.log(this)
+        components: {
+            CreateDom
         }
     }
 </script>

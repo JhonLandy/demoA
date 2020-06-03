@@ -5,17 +5,18 @@
         :column.sync="column"
         :page.sync="page"
         :limit.sync="limit"
-        :v-loading="loading"
         border
-        :allow-check="true"
+        :checked="checked"
         @row-dblclick="dbClick"
+        @test="doRecover"
+        @doRefresh="doRefresh"
+        @doDel="doDel"
     >
-        <template v-slot:toolbarT>
-            {{ok}}
-            <el-button size="small" >刷新</el-button>
+        <template v-slot:toolbarT="{events}">
+            <el-button size="small" @click="events('doRefresh')">刷新</el-button>
         </template>
-        <template v-slot:toolbarB>
-            <el-button size="small" @click="doDel">删除</el-button>
+        <template v-slot:toolbarB="{events}">
+            <el-button size="small" @click="events('doDel')">删除</el-button>
         </template>
     </net-table>
 </template>
@@ -29,6 +30,13 @@
                 page: 1,
                 limit: 10,
                 total: 100,
+                checked: {
+                    $attrs: {
+                        width: ' 50',
+                        align: 'center',
+                        prop: 'checked',
+                    }
+                },
                 column: [
                     {
                         id: 1,
@@ -37,7 +45,7 @@
                             prop: 'order',
                         },
                         template: `
-                             <el-tag type="warning" size="small">${Date.now()}</el-tag>
+                             <el-tag type="warning" size="small">{{scope.row.order}}</el-tag>
                         `
                     },
                     {
@@ -46,12 +54,12 @@
                             label: '申请人',
                             prop: 'name'
                         },
-                        template: function (scope) {
+                        template: function () {
                             //可以直接写字符串, 需要用到表格数据使用函数方式
                             return `
                                 <div>
-                                    ${scope.row.name}
-                                    <el-tag type="success" size="small" v-if="isAdmin">当前登录的账号有管理员权限</el-tag>
+                                    {{scope.row.name}}
+                                    <el-tag type="success" size="small">当前登录的账号有管理员权限</el-tag>
                                 </div>
                             `
                         }
@@ -78,11 +86,11 @@
                             label: '流程状态',
                             prop: 'status'
                         },
-                        template: function (scope) {
+                        template: function () {
                             //可以直接写字符串, 需要用到表格数据使用函数方式
                             return `
                                 <div>
-                                    <el-tag type="success" v-if="${scope.row.status === '1'}" size="small">通过</el-tag>
+                                    <el-tag type="success" v-if="scope.row.status === '1'" size="small">通过</el-tag>
                                     <el-tag type="danger" v-else size="small">不通过</el-tag>
                                 </div>
                             `
@@ -94,12 +102,13 @@
                             label: '操作',
                             prop: 'operation',
                         },
-                        template: function (scope) {
+                        template: function () {
                             //可以直接写字符串, 需要用到表格数据使用函数方式
+                            //events自定义事件@test注入table组件
                             return `
-                                <div slot-scope="scope">
-                                    <el-button type="success" @click="doRecover(list[${scope.$index}])" size="medium">通过</el-button>
-                                    <el-button type="danger" @click="doDel" size="medium">删除</el-button>
+                                <div>
+                                    <el-button type="success" @click="events('test', scope)" size="medium">通过</el-button>
+                                    <el-button type="danger" size="medium">删除</el-button>
                                 </div>
                             `
                         }
@@ -111,7 +120,7 @@
         },
          computed: {
              ok() {
-                 return this.$store.getters.name
+                 return this.$store.getters.shit
              }
          },
          watch: {
@@ -125,6 +134,7 @@
          created() {
             for (let i = 0;i < 100;i++) {
                 this.data.push({
+                    checked: "",
                     order: i,
                     name: "小明"+i,
                     ip: '192.168.'+(i +1),
@@ -152,20 +162,21 @@
                     type: 'error'
                 })
             },
-             doRecover(data) {
-                data.status = '1'//地址引用问题，可触发子组件table更新,一般情况可用，特殊情况不推荐
+             doRecover({row}) {
+                row.status = '1'//地址引用问题，可触发子组件table更新,一般情况可用，特殊情况不推荐
                 this.$message({
                     message: '通过审批！',
                     type: 'success'
                 })
              },
              dbClick() {
-                this.$store.dispatch('setA', 'fuck')
-
                  this.$message({
                      message: '你双击了！',
                      type: 'success'
                  })
+             },
+             doRefresh(data) {
+                 console.log(data)
              }
          }
      }

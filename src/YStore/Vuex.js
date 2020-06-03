@@ -21,6 +21,7 @@ class Store {
 
             Object.defineProperty(store.getters, key, {
                 get: () => {
+                    console.log(this._vm)
                     return this._vm[key]
                 },
                 enumerable: true
