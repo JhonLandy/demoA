@@ -14,7 +14,8 @@ const store = new Vuex.Store({
         changeUser(state, data) {
             state.userInfo = data;
         }
-    }
+    },
+    strict: true
 });
 
 export default store;

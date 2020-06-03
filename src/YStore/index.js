@@ -20,7 +20,6 @@ const store = new Vuex.Store({
     },
     getters: {
         name({state}) {
-            console.log(state)
             return state.name + "gbk"
         }
     }
