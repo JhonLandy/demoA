@@ -19,7 +19,7 @@ const store = new Vuex.Store({
         }
     },
     getters: {
-        shit({state}) {
+        name({state}) {
             return state.name + "gbk"
         }
     }
