@@ -42,8 +42,10 @@ class Vue {
         this.$attrs = {}
         this.initMethods()
         this.initData()
-        const update = this.compile.bind(this)
-        this.render(update)
+        if (this.$el) {
+            const update = this.compile.bind(this, this.$el)
+            this.render(update)
+        }
     }
 
     initMethods() {
@@ -59,9 +61,10 @@ class Vue {
         proxy(this)
     }
 
-    compile() {
+    compile(el) {
         const {data} = this.$options
-        const childNoe =  this.$el.childNodes
+        const $el = typeof el === 'string' ? document.querySelector(el) : el
+        const childNoe = $el.childNodes
         childNoe.forEach(node => {
             const outerHtml = node.outerHTML//不是元素时为undefined
             const innerHtml = node.innerHTML//不是元素时为undefined
@@ -82,7 +85,7 @@ class Vue {
                         const e = node
                         if(!e.value) e.value = data[RegExp.$1]
                         node.addEventListener('input', function(e) {
-                             data[RegExp.$1] = e.target.value
+                            data[RegExp.$1] = e.target.value
                         }, {
                             once: true
                         })
@@ -106,6 +109,11 @@ class Vue {
 
     render(fn) {
         new Watcher(fn)
+    }
+
+    mount(el) {
+        const update = this.compile.bind(this, el)
+        this.render(update)
     }
 }
 
