@@ -9,19 +9,17 @@
         :checked="checked"
         @row-dblclick="dbClick"
         @test="doRecover"
-        @doRefresh="doRefresh"
-        @doDel="doDel"
     >
-        <template v-slot:toolbarT="{events}">
-            <el-button size="small" @click="events('doRefresh')">刷新</el-button>
+        <template v-slot:toolbarT>
+            <el-button size="small" @click="doRefresh">刷新</el-button>
         </template>
-        <template v-slot:toolbarB="{events}">
-            <el-button size="small" @click="events('doDel')">删除</el-button>
+        <template v-slot:toolbarB>
+            <el-button size="small" @click="doDel">删除</el-button>
         </template>
     </net-table>
 </template>
 <script>
-     import NetTable from './components/NetTable'
+     import NetTable from './components/Index'
      const Table = {
         name: 'tables',
         data() {

@@ -2,25 +2,25 @@
     <div>
         <div class="frame">
             <div class="toolbar">
-                <slot name="toolbarT" :events="events"></slot>
+                <slot name="toolbarT"></slot>
             </div>
             <div class="pagination">
                 <el-pagination
-                    background
-                    :current-page.sync="currentPage"
-                    :page-size.sync="size"
-                    :page-sizes="limitGroup"
-                    :total="total"
-                    layout="total, sizes, prev, pager, next, jumper"
-                    @size-change="onSize"
-                    @current-change="onCurrent"
+                        background
+                        :current-page.sync="currentPage"
+                        :page-size.sync="size"
+                        :page-sizes="limitGroup"
+                        :total="total"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        @size-change="onSize"
+                        @current-change="onCurrent"
                 ></el-pagination>
             </div>
         </div>
         <el-table v-bind="$attrs" v-on="$listeners">
             <el-table-column
-                v-if="checked"
-                v-bind="checked.$attrs"
+                    v-if="checked"
+                    v-bind="checked.$attrs"
             >
                 <template v-slot="scope">
                     <el-checkbox name="type" @change="checkSingle(scope)" :value="scope.row.checked"></el-checkbox>
@@ -30,32 +30,32 @@
                 </template>
             </el-table-column>
             <el-table-column
-                v-for="{id, template, $attrs, header} in column"
-                :key="id"
-                v-bind="$attrs"
+                    v-for="{id, template, attrs, header, methods} in column"
+                    :key="id"
+                    v-bind="attrs"
             >
                 <template v-slot="scope" v-if="template">
-                    <CreateDom  v-on="$listeners" :template="template" :data="scope" />
+                    <CreateDom  v-on="methods" :template="template" :_data="scope" />
                 </template>
-                <template v-slot:header v-if="header">
-                    <CreateDom  v-on="$listeners" :template="header"/>
+                <template v-slot:header="scope" v-if="header">
+                    <CreateDom  v-on="methods"  :_data="scope" :template="header"/>
                 </template>
             </el-table-column>
         </el-table>
         <div class="frame">
             <div class="toolbar">
-                <slot name="toolbarB" :events="events"></slot>
+                <slot name="toolbarB"></slot>
             </div>
             <div class="pagination">
                 <el-pagination
-                    background
-                    :current-page.sync="currentPage"
-                    :page-size.sync="size"
-                    :page-sizes="limitGroup"
-                    :total="total"
-                    layout="total, sizes, prev, pager, next, jumper"
-                    @size-change="onSize"
-                    @current-change="onCurrent"
+                        background
+                        :current-page.sync="currentPage"
+                        :page-size.sync="size"
+                        :page-sizes="limitGroup"
+                        :total="total"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        @size-change="onSize"
+                        @current-change="onCurrent"
                 ></el-pagination>
             </div>
         </div>
@@ -63,9 +63,14 @@
 </template>
 
 <script>
-    import CreateDom from './CreateDom'
+    import CreateDom from  './CreateDom'
     export default {
-        name: "NetTable",
+        name: "Table",
+        provide() {
+            return {
+                ...this.$attrs.provide
+            }
+        },
         props: {
             column: {
                 type: Array,
@@ -87,9 +92,14 @@
                 required: true,
                 type: Number
             },
+            pagination: {
+                type: Function
+            },
             checked: {
                 type: Object,
-                default: () => {}
+                default: () => {
+                    return {}
+                }
             }
         },
         data() {
@@ -104,6 +114,8 @@
                 },
                 set(val) {
                     this.$emit('update:limit', val)
+                    this.pagination && this.pagination()
+
                 }
             },
             currentPage: {
@@ -112,6 +124,7 @@
                 },
                 set(val) {
                     this.$emit('update:page', val)
+                    this.pagination && this.pagination()
                 }
             }
         },
@@ -134,9 +147,6 @@
                 } else {
                     this.isChecked = this.$attrs.data.every(item => item.checked)
                 }
-            },
-            events(name) {
-                this.$emit(name, [...this.$attrs.data])
             }
         },
         components: {
@@ -145,10 +155,15 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .frame {
         display: flex;
         justify-content: space-between;
         padding: 15px 0;
+
+    }
+    .el-table {
+        border: 1px solid rgb(223, 230, 236);
+        border-radius: 4px;
     }
 </style>
