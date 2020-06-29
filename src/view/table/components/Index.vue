@@ -6,21 +6,21 @@
             </div>
             <div class="pagination">
                 <el-pagination
-                        background
-                        :current-page.sync="currentPage"
-                        :page-size.sync="size"
-                        :page-sizes="limitGroup"
-                        :total="total"
-                        layout="total, sizes, prev, pager, next, jumper"
-                        @size-change="onSize"
-                        @current-change="onCurrent"
+                    background
+                    :current-page.sync="currentPage"
+                    :page-size.sync="size"
+                    :page-sizes="limitGroup"
+                    :total="total"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    @size-change="onSize"
+                    @current-change="onCurrent"
                 ></el-pagination>
             </div>
         </div>
         <el-table v-bind="$attrs" v-on="$listeners">
             <el-table-column
-                    v-if="checked"
-                    v-bind="checked.$attrs"
+                v-if="checked"
+                v-bind="checked.$attrs"
             >
                 <template v-slot="scope">
                     <el-checkbox name="type" @change="checkSingle(scope)" :value="scope.row.checked"></el-checkbox>
@@ -48,14 +48,14 @@
             </div>
             <div class="pagination">
                 <el-pagination
-                        background
-                        :current-page.sync="currentPage"
-                        :page-size.sync="size"
-                        :page-sizes="limitGroup"
-                        :total="total"
-                        layout="total, sizes, prev, pager, next, jumper"
-                        @size-change="onSize"
-                        @current-change="onCurrent"
+                    background
+                    :current-page.sync="currentPage"
+                    :page-size.sync="size"
+                    :page-sizes="limitGroup"
+                    :total="total"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    @size-change="onSize"
+                    @current-change="onCurrent"
                 ></el-pagination>
             </div>
         </div>
@@ -63,7 +63,7 @@
 </template>
 
 <script>
-    import CreateDom from  './CreateDom'
+    import CreateDom from './CreateDom'
     export default {
         name: "Table",
         provide() {
@@ -96,10 +96,7 @@
                 type: Function
             },
             checked: {
-                type: Object,
-                default: () => {
-                    return {}
-                }
+                default: ''
             }
         },
         data() {
