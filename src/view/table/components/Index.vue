@@ -78,19 +78,19 @@
             },
             page: {
                 type: Number,
-                default: 1
+                default: 0
             },
             limit: {
                 type: Number,
-                default: 10
+                default: 0
             },
             limitGroup: {
                 type: Array,
                 default: () => [10, 20, 30, 50]
             },
             total: {
-                required: true,
-                type: Number
+                type: Number,
+                default: 0
             },
             pagination: {
                 type: Function
