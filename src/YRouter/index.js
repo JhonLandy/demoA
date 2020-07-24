@@ -14,7 +14,7 @@ const route = [
     },
     {
         name: 'table',
-        path: '/table',
+        path: '/Table',
         component: () => import('../view/table/demo'),
         meta: {
             login: true

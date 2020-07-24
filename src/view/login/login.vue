@@ -11,34 +11,34 @@
         </el-form-item>
         <el-form-item label="密码" prop="password">
             <el-input type="password" v-model="form.password"></el-input>
-<!--            <el-select v-model="form.select" placeholder="请选择活动区域">-->
+<!--            <el-select v-model="Form.select" placeholder="请选择活动区域">-->
 <!--                <el-option label="区域一" value="shanghai"></el-option>-->
 <!--                <el-option label="区域二" value="beijing"></el-option>-->
 <!--            </el-select>-->
         </el-form-item>
-<!--        <el-form-item  label="活动时间" prop="date" required>-->
-<!--            <el-date-picker type="date" placeholder="选择日期" v-model="form.date" style="width: 100%;"></el-date-picker>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="即时配送" prop="delivery" required>-->
-<!--            <el-switch v-model="form.delivery"></el-switch>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="活动性质" prop="type" required>-->
-<!--            <el-checkbox-group v-model="form.type">-->
+<!--        <el-Form-item  label="活动时间" prop="date" required>-->
+<!--            <el-date-picker type="date" placeholder="选择日期" v-model="Form.date" style="width: 100%;"></el-date-picker>-->
+<!--        </el-Form-item>-->
+<!--        <el-Form-item label="即时配送" prop="delivery" required>-->
+<!--            <el-switch v-model="Form.delivery"></el-switch>-->
+<!--        </el-Form-item>-->
+<!--        <el-Form-item label="活动性质" prop="type" required>-->
+<!--            <el-checkbox-group v-model="Form.type">-->
 <!--                <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>-->
 <!--                <el-checkbox label="地推活动" name="type"></el-checkbox>-->
 <!--                <el-checkbox label="线下主题活动" name="type"></el-checkbox>-->
 <!--                <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>-->
 <!--            </el-checkbox-group>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="特殊资源" prop="resource" required>-->
-<!--            <el-radio-group v-model="form.resource">-->
+<!--        </el-Form-item>-->
+<!--        <el-Form-item label="特殊资源" prop="resource" required>-->
+<!--            <el-radio-group v-model="Form.resource">-->
 <!--                <el-radio label="线上品牌商赞助"></el-radio>-->
 <!--                <el-radio label="线下场地免费"></el-radio>-->
 <!--            </el-radio-group>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="活动形式" required>-->
-<!--            <el-input type="textarea" v-model="form.desc"></el-input>-->
-<!--        </el-form-item>-->
+<!--        </el-Form-item>-->
+<!--        <el-Form-item label="活动形式" required>-->
+<!--            <el-input type="textarea" v-model="Form.desc"></el-input>-->
+<!--        </el-Form-item>-->
         <el-form-item>
             <el-button type="primary" @click="handleSubmit">登陆</el-button>
             <el-button>取消</el-button>

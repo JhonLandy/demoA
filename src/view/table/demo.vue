@@ -19,7 +19,7 @@
     </net-table>
 </template>
 <script>
-     import {NetTable} from './components/Index'
+     import NetTable from './components/Index'
      const Table = {
         name: 'tables',
         data() {
@@ -29,7 +29,7 @@
                 limit: 10,
                 total: 100,
                 checked: {
-                    $attrs: {
+                    attrs: {
                         width: ' 50',
                         align: 'center',
                         prop: 'checked',
@@ -38,7 +38,7 @@
                 column: [
                     {
                         id: 1,
-                        $attrs: {
+                        attrs: {
                             label: '序号',
                             prop: 'order',
                         },
@@ -48,7 +48,7 @@
                     },
                     {
                         id: 2,
-                        $attrs: {
+                        attrs: {
                             label: '申请人',
                             prop: 'name'
                         },
@@ -64,7 +64,7 @@
                     },
                     {
                         id: 3,
-                        $attrs: {
+                        attrs: {
                             label: 'ip地址',
                             prop: 'ip'
                         },
@@ -80,7 +80,7 @@
                     },
                     {
                         id: 4,
-                        $attrs: {
+                        attrs: {
                             label: '流程状态',
                             prop: 'status'
                         },
@@ -96,19 +96,22 @@
                     },
                     {
                         id: 5,
-                        $attrs: {
+                        attrs: {
                             label: '操作',
                             prop: 'operation',
                         },
                         template: function () {
                             //可以直接写字符串, 需要用到表格数据使用函数方式
-                            //events自定义事件@test注入table组件
                             return `
                                 <div>
-                                    <el-button type="success" @click="events('test', scope)" size="medium">通过</el-button>
-                                    <el-button type="danger" size="medium">删除</el-button>
+                                    <el-button type="success" @click="doRecover(scope)" size="medium">通过</el-button>
+                                    <el-button type="danger" size="medium" @click="doDel">删除</el-button>
                                 </div>
                             `
+                        },
+                        methods: {
+                            doRecover: this.doRecover,
+                            doDel: this.doDel
                         }
                     }
                 ],
@@ -159,6 +162,7 @@
                     message: '删除成功！',
                     type: 'error'
                 })
+                console.log(this)
             },
              doRecover({row}) {
                 row.status = '1'//地址引用问题，可触发子组件table更新,一般情况可用，特殊情况不推荐
