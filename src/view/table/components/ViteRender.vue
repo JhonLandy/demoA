@@ -19,8 +19,6 @@ export default {
             computed: { scope:() => _data},//当数据为静态数据时，如果为data, 换页的时候数据(状态)不会跟着换页走，为避免这种情况，此处使用computed
             methods: {...on},
             template
-        }, {
-            scopedSlots: 'aa'
         })
     }
 }

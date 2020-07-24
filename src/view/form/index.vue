@@ -1,6 +1,6 @@
 <template>
     <div>
-        <net-form name="form" :components="components" :rules="rules"  @valid="valid">
+        <net-form name="form" :elements="components" :rules="rules"  @valid="valid">
 
         </net-form>
     </div>
@@ -19,21 +19,26 @@
                             name: 'project',
                             type: 'string'
                         },
-                        type: 'select',
+                        element: 'el-select',
                         label: '项目',
-                        defaultShow: true,
-                        multiple: true,
-                        filterable: true,
-                        options: [
-                            {
-                                label: '大湾区',
-                                value: '0'
-                            },
-                            {
-                                label: '海珠区',
-                                value: 1
-                            }
-                        ],
+                        attrs: {
+                            defaultShow: true,
+                            multiple: true,
+                            filterable: true,
+                        },
+                        options: {
+                            element: 'el-option',
+                            data:[
+                                {
+                                    label: '大湾区',
+                                    value: '0'
+                                },
+                                {
+                                    label: '海珠区',
+                                    value: 1
+                                }
+                            ]
+                        },
                         permission: () => {
                             return true
                         }
@@ -43,37 +48,51 @@
                             name: 'dc_code',
                             type: 'array'
                         },
-                        type: 'selectGroup',
+                        element: 'el-select',
                         label: '区域',
-                        multiple: true,
-                        _data: 'label',
-                        options: [
-                            {
-                                label: '广东',
-                                options: [
-                                    {
-                                        label: 'guangdong',
-                                        value: '0'
+                        attrs: {
+                            multiple: true
+                        },
+                        options: {
+                            element: 'el-option-group',
+                            data: [
+                                {
+
+                                    label: '广东',
+                                    options: {
+                                        element: 'el-option',
+                                        data: [
+
+                                            {
+                                                label: 'guangdong',
+                                                value: '0',
+                                            }
+                                        ]
                                     }
-                                ]
-                            },
-                            {
-                                label: '北京',
-                                options: [
-                                    {
-                                        label: 'beijing',
-                                        value: '1'
+                                },
+                                {
+                                    label: '北京',
+                                    options: {
+                                        element: 'el-option',
+                                        data: [
+
+                                            {
+                                                label: 'beijing',
+                                                value: '1',
+                                            }
+                                        ],
+
                                     }
-                                ]
-                            },
-                        ]
+                                }
+                            ]
+                        }
                     },
                     {
                         field: {
                             name: 'id',
                             type: 'string'
                         },
-                        type: 'input',
+                        element: 'el-input',
                         label: '实例ID',
                         controlled: 'isOpen'
                     },
@@ -82,47 +101,54 @@
                             name: 'isOpen',
                             type: 'string'
                         },
-                        type: 'switch',
-                        label: '开关'
+                        element: 'el-switch',
+                        label: '开关',
+                        attrs: {
+                            checked: false
+                        }
                     },
                     {
                         field: {
                             name: 'use_case',
                             type: 'string'
                         },
-                        type: 'radioButton',
+                        element: 'el-radio-group',
                         label: '用途',
-                        _data: 'value',
-                        options: [
-                            {
-                                value: '1',
-                                label: '正式'
-                            },
-                            {
-                                value: '2',
-                                label: '测试'
-                            }
-                        ]
+                        options: {
+                            element: 'el-radio-button',
+                            data: [
+                                {
+                                    value: '1',
+                                    label: '正式'
+                                },
+                                {
+                                    value: '2',
+                                    label: '测试'
+                                }
+                            ]
+                        }
                     },
                     {
                         field: {
                             name: 'status',
                             type: 'string'
                         },
-                        type: 'radioButton',
+                        element: 'el-radio-group',
                         label: '状态',
-                        _data: 'label',
                         controlled: '!isOpen',
-                        options: [
-                            {
-                                value: '3',
-                                label: 'RUNNING'
-                            },
-                            {
-                                value: '4',
-                                label: 'PENDING'
-                            }
-                        ]
+                        options: {
+                            element: 'el-radio-button',
+                            data: [
+                                {
+                                    value: '3',
+                                    label: 'RUNNING'
+                                },
+                                {
+                                    value: '4',
+                                    label: 'PENDING'
+                                }
+                            ]
+                        }
                     }
                 ],
                 rules: {
