@@ -44,6 +44,7 @@
                         }
                     },
                     {
+
                         field: {
                             name: 'dc_code',
                             type: 'array'
