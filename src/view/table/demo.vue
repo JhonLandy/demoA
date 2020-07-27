@@ -105,7 +105,7 @@
                             return `
                                 <div>
                                     <el-button type="success" @click="doRecover(scope)" size="medium">通过</el-button>
-                                    <el-button type="danger" size="medium" @click="doDel">删除</el-button>
+                                    <el-button type="danger" size="medium" @click="doDel(scope)">删除</el-button>
                                 </div>
                             `
                         },
@@ -157,12 +157,12 @@
                 NetTable
             },
          methods: {
-            doDel() {
+            doDel(scope) {
                 this.$message({
                     message: '删除成功！',
                     type: 'error'
                 })
-                console.log(this)
+                console.log(scope)
             },
              doRecover({row}) {
                 row.status = '1'//地址引用问题，可触发子组件table更新,一般情况可用，特殊情况不推荐
