@@ -1,5 +1,5 @@
 module.exports = {
-    publicPath: '/form/index',
+    publicPath: '/upload/index',
     runtimeCompiler: true,
     devServer: {
         proxy: {

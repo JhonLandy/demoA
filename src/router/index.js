@@ -42,6 +42,11 @@ const routes = [
                 name: 'form',
                 path: '/form/index',
                 component: () => import('@/view/form/index')
+            },
+            {
+                name: 'upload',
+                path: '/upload/index',
+                component: () => import('@/view/upload/demo')
             }
         ]
     }

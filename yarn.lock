@@ -755,6 +755,13 @@
     "@babel/types" "^7.4.4"
     esutils "^2.0.2"
 
+"@babel/runtime@^7.7.6":
+  version "7.10.5"
+  resolved "https://registry.npm.taobao.org/@babel/runtime/download/@babel/runtime-7.10.5.tgz?cache=0&sync_timestamp=1594749041890&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fruntime%2Fdownload%2F%40babel%2Fruntime-7.10.5.tgz#303d8bd440ecd5a491eae6117fd3367698674c5c"
+  integrity sha1-MD2L1EDs1aSR6uYRf9M2dphnTFw=
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/runtime@^7.8.4":
   version "7.9.2"
   resolved "https://registry.npm.taobao.org/@babel/runtime/download/@babel/runtime-7.9.2.tgz#d90df0583a3a252f09aaa619665367bae518db06"
@@ -4139,6 +4146,13 @@ highlight.js@^9.6.0:
   resolved "https://registry.npm.taobao.org/highlight.js/download/highlight.js-9.18.1.tgz#ed21aa001fe6252bb10a3d76d47573c6539fe13c"
   integrity sha1-7SGqAB/mJSuxCj121HVzxlOf4Tw=
 
+history@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.npm.taobao.org/history/download/history-5.0.0.tgz#0cabbb6c4bbf835addb874f8259f6d25101efd08"
+  integrity sha1-DKu7bEu/g1rduHT4JZ9tJRAe/Qg=
+  dependencies:
+    "@babel/runtime" "^7.7.6"
+
 hmac-drbg@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npm.taobao.org/hmac-drbg/download/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
@@ -7224,11 +7238,6 @@ schema-utils@^2.6.1:
   dependencies:
     ajv "^6.12.0"
     ajv-keywords "^3.4.1"
-
-scss-loader@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/scss-loader/-/scss-loader-0.0.1.tgz#eae017b9e0f38c12a532db25c220b902fb34e671"
-  integrity sha1-6uAXueDzjBKlMtslwiC5Avs05nE=
 
 scss-tokenizer@^0.2.3:
   version "0.2.3"

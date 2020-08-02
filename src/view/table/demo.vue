@@ -19,7 +19,7 @@
     </net-table>
 </template>
 <script>
-     import {NetTable} from './components/Index'
+     import NetTable from './components/Index'
      const Table = {
         name: 'tables',
         data() {

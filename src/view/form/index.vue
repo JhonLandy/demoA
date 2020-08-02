@@ -1,6 +1,6 @@
 <template>
     <div>
-        <net-form name="form" :components="components" :rules="rules"  @valid="valid">
+        <net-form name="form" :elements="components" :rules="rules"  @valid="valid">
 
         </net-form>
     </div>
@@ -8,7 +8,6 @@
 
 <script>
     import NetForm from "./components/NetForm"
-
     export default {
         name: 'formComponent',
         data() {
@@ -19,21 +18,26 @@
                             name: 'project',
                             type: 'string'
                         },
-                        type: 'select',
+                        element: 'el-select',
                         label: '项目',
-                        defaultShow: true,
-                        multiple: true,
-                        filterable: true,
-                        options: [
-                            {
-                                label: '大湾区',
-                                value: '0'
-                            },
-                            {
-                                label: '海珠区',
-                                value: 1
-                            }
-                        ],
+                        attrs: {
+                            defaultShow: true,
+                            multiple: true,
+                            filterable: true,
+                        },
+                        options: {
+                            element: 'el-option',
+                            data: [
+                                {
+                                    label: '大湾区',
+                                    value: '0'
+                                },
+                                {
+                                    label: '海珠区',
+                                    value: 1
+                                }
+                            ]
+                        },
                         permission: () => {
                             return true
                         }
@@ -43,30 +47,34 @@
                             name: 'dc_code',
                             type: 'array'
                         },
-                        type: 'selectGroup',
+                        element: 'el-select',
                         label: '区域',
                         multiple: true,
                         _data: 'label',
-                        options: [
+                        options: {
+                            element: 'el-option-group',
+                            data: [
                             {
                                 label: '广东',
-                                options: [
-                                    {
+                                options: {
+                                    element: 'el-option',
+                                    data:[{
                                         label: 'guangdong',
                                         value: '0'
-                                    }
-                                ]
+                                    }]
+                                }
                             },
                             {
                                 label: '北京',
-                                options: [
-                                    {
+                               options: {
+                                    element: 'el-option',
+                                    data:[{
                                         label: 'beijing',
                                         value: '1'
-                                    }
-                                ]
-                            },
-                        ]
+                                    }]
+                                }
+                            }]
+                            }
                     },
                     {
                         field: {
@@ -112,7 +120,7 @@
                         type: 'radioButton',
                         label: '状态',
                         _data: 'label',
-                        controlled: '!isOpen',
+                        controlled: 'isOpen',
                         options: [
                             {
                                 value: '3',

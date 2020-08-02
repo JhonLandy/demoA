@@ -88,8 +88,6 @@
                                 this.$router.push({name: 'page'})
                             }
                         })
-
-
                     }
                 });
             }
