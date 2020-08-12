@@ -32,7 +32,7 @@ const routes = [
             },
             {
                 name: 'table',
-                path: '/Table',
+                path: '/table',
                 component: () => import('../view/table/demo'),
                 meta: {
                     login: true
@@ -40,8 +40,13 @@ const routes = [
             },
             {
                 name: 'form',
-                path: '/Form/index',
-                component: () => import('../view/form/index')
+                path: '/form/index',
+                component: () => import('@/view/form/index')
+            },
+            {
+                name: 'upload',
+                path: '/upload/index',
+                component: () => import('@/view/upload/demo')
             }
         ]
     }

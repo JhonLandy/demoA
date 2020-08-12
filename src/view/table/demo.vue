@@ -18,6 +18,7 @@
         </template>
     </net-table>
 </template>
+
 <script>
     //请开启vue内置的编译器，vue.config.js runtimeCompiler: true,
      import NetTable from './components/Index'

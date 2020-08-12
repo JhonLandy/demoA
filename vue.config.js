@@ -1,5 +1,5 @@
 module.exports = {
-    publicPath: '/Form/index',
+    publicPath: '/upload/index',
     runtimeCompiler: true,
     devServer: {
         proxy: {
@@ -12,8 +12,5 @@ module.exports = {
             }
         },
         open: true
-    },
-    configureWebpack: {
-        devtool: 'eval'
     }
 }

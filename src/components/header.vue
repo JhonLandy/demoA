@@ -16,7 +16,10 @@
         <el-menu-item index="3">
             <router-link :to="{name: 'form'}">表单</router-link>
         </el-menu-item>
-        <el-menu-item index="3" style="float: right" @click="logout">
+         <el-menu-item index="4">
+            <router-link :to="{name: 'upload'}">上传</router-link>
+        </el-menu-item>
+        <el-menu-item index="100" style="float: right" @click="logout">
             <router-link :to="{name:'login'}">{{this.userInfo.username ? `欢迎你！${this.userInfo.username}` : "登陆"}}</router-link>
         </el-menu-item>
     </el-menu>

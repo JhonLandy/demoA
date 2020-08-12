@@ -8,7 +8,6 @@
 
 <script>
     import NetForm from "./components/NetForm"
-
     export default {
         name: 'formComponent',
         data() {
@@ -28,7 +27,7 @@
                         },
                         options: {
                             element: 'el-option',
-                            data:[
+                            data: [
                                 {
                                     label: '大湾区',
                                     value: '0'
@@ -44,56 +43,45 @@
                         }
                     },
                     {
-
                         field: {
                             name: 'dc_code',
                             type: 'array'
                         },
                         element: 'el-select',
                         label: '区域',
-                        attrs: {
-                            multiple: true
-                        },
+                        multiple: true,
+                        _data: 'label',
                         options: {
                             element: 'el-option-group',
                             data: [
-                                {
-
-                                    label: '广东',
-                                    options: {
-                                        element: 'el-option',
-                                        data: [
-
-                                            {
-                                                label: 'guangdong',
-                                                value: '0',
-                                            }
-                                        ]
-                                    }
-                                },
-                                {
-                                    label: '北京',
-                                    options: {
-                                        element: 'el-option',
-                                        data: [
-
-                                            {
-                                                label: 'beijing',
-                                                value: '1',
-                                            }
-                                        ],
-
-                                    }
+                            {
+                                label: '广东',
+                                options: {
+                                    element: 'el-option',
+                                    data:[{
+                                        label: 'guangdong',
+                                        value: '0'
+                                    }]
                                 }
-                            ]
-                        }
+                            },
+                            {
+                                label: '北京',
+                               options: {
+                                    element: 'el-option',
+                                    data:[{
+                                        label: 'beijing',
+                                        value: '1'
+                                    }]
+                                }
+                            }]
+                            }
                     },
                     {
                         field: {
                             name: 'id',
                             type: 'string'
                         },
-                        element: 'el-input',
+                        type: 'input',
                         label: '实例ID',
                         controlled: 'isOpen'
                     },
@@ -102,54 +90,47 @@
                             name: 'isOpen',
                             type: 'string'
                         },
-                        element: 'el-switch',
-                        label: '开关',
-                        attrs: {
-                            checked: false
-                        }
+                        type: 'switch',
+                        label: '开关'
                     },
                     {
                         field: {
                             name: 'use_case',
                             type: 'string'
                         },
-                        element: 'el-radio-group',
+                        type: 'radioButton',
                         label: '用途',
-                        options: {
-                            element: 'el-radio-button',
-                            data: [
-                                {
-                                    value: '1',
-                                    label: '正式'
-                                },
-                                {
-                                    value: '2',
-                                    label: '测试'
-                                }
-                            ]
-                        }
+                        _data: 'value',
+                        options: [
+                            {
+                                value: '1',
+                                label: '正式'
+                            },
+                            {
+                                value: '2',
+                                label: '测试'
+                            }
+                        ]
                     },
                     {
                         field: {
                             name: 'status',
                             type: 'string'
                         },
-                        element: 'el-radio-group',
+                        type: 'radioButton',
                         label: '状态',
-                        controlled: '!isOpen',
-                        options: {
-                            element: 'el-radio-button',
-                            data: [
-                                {
-                                    value: '3',
-                                    label: 'RUNNING'
-                                },
-                                {
-                                    value: '4',
-                                    label: 'PENDING'
-                                }
-                            ]
-                        }
+                        _data: 'label',
+                        controlled: 'isOpen',
+                        options: [
+                            {
+                                value: '3',
+                                label: 'RUNNING'
+                            },
+                            {
+                                value: '4',
+                                label: 'PENDING'
+                            }
+                        ]
                     }
                 ],
                 rules: {
