@@ -1,5 +1,5 @@
 <template>
-    <net-form ref="from" name="form" :elements="components">
+    <net-form ref="from" name="form" :elements="components" label-width="100px">
       <template v-slot:button="{handleSubmit}">
         <el-button @click="valid(handleSubmit)">提交</el-button>
       </template>
@@ -26,8 +26,8 @@ export default {
         element: ['el-select', 'el-option'],
         attrs: [{multiple: true, filterable: true}],
         options: [
-            {attrs: { label: '大湾区', value: 0 }},
-            {attrs: { label: '海珠区', value: 1 }},
+            { label: '大湾区', value: 0 },
+            { label: '海珠区', value: 1 },
         ],
         permission: () => {
             return true
@@ -61,27 +61,51 @@ export default {
           name: 'dc_code',
           type: 'array'
       },
-      element: ['el-select', 'el-option-group', 'el-option'],
-      attrs: [{multiple: true, filterable: true}],
-      methods: [],
-      options: [
-        {
-          attrs:{label: '广东'},
-          options:[{attrs: {
-              label: 'guangdong',
-              value: '0'
-            }}]
-        },
-        {
-          attrs:{label: '北京'},
-          options:[{
-            attrs: {
-              label: 'beijing',
-              value: '1'
-            }
-          }]
-        }
+      //第一种方式
+      element: [
+        'el-select', 
+        [
+          ['el-option-group', 
+            ['el-option']//这数组存放el-option-group子节点el-option，多个的话就在数组写多个
+          ], 
+          ['el-option-group', 
+            ['el-option']//这数组存放el-option-group子节点el-option，多个的话就在数组写多个
+          ]
+        ],
+      ],
+      attrs: [//和element格式一一对应
+        {multiple: true, filterable: true}, 
+        [
+          [{label: '广东'},  [{label: 'guangdong', value: '0'}]],
+          [{label: '北京'},  [{label: 'beijing',   value: '1'}]]
+        ]
       ]
+      //第二种方式
+      // element: [//数组内不能写数组
+      // 'el-select', 
+      // 'el-option-group', //el-select子节点，根据options的数据生成对应数量
+      // 'el-option'    //el-option-group子节点，根据options的数据生成对应数量
+      // ],//用于option所选项
+      // options: [//这种方式也可以
+      //   {
+      //     label: '广东',
+      //     options:[ 
+      //       {
+      //         label: 'guangdong',
+      //         value: '0'
+      //       }
+      //     ]
+      //   },
+      //   {
+      //     label: '北京',
+      //     options:[
+      //       {
+      //         label: 'beijing',
+      //         value: '1'
+      //       }
+      //     ]
+      //   }
+      // ]
     }
     const use_case = {
       element: ['el-radio-group','el-radio-button'],
@@ -102,16 +126,49 @@ export default {
         label: '用途',
         rules: {required: true, message: '请选择时间', trigger: 'change'}
       },
-      options: [{
-        attrs: {
+      options: [
+        {
             value: '1',
             label: '正式'
-        }},
-        {attrs: {
+        },
+        {
             value: '2',
             label: '测试'
-      }}]
+      }]
     }
+
+    const customer = {
+      formItem: {
+        label: '自定义组件',
+        rules: {required: true, message: '请选择时间', trigger: 'change'}
+      },
+      field: {
+        name: 'customer',
+        type: 'string'
+      },
+      createElement(create) {
+        return create('el-radio-group', {
+            attrs: {
+              size: 'small'
+            },
+        },
+        [ create('el-radio-button', {
+            attrs: {
+              value: '1',
+              label: '自定义组件1'
+            }
+          }), 
+          create('el-radio-button', {
+            attrs: {
+              value: '2',
+              label: '自定义组件2'
+            }
+          }
+        )]
+        )
+      }
+    }
+
     const status =  {
       field: {
           name: 'status',
@@ -121,20 +178,22 @@ export default {
           label: '状态',
           rules: {required: true, message: '请至少选择一个活动性质', trigger: 'change'}
       },
-      element: ['el-radio-group', 'el-radio-button'],
+      element: ['el-radio-group', ['el-radio-button', 'el-radio-button']],
       controlled: 'isOpen',
-      options: [{
-        attrs: {
-            value: '3',
-            label: 'RUNNING'
-          }},
-        {attrs: {
-            value: '4',
-            label: 'PENDING'
-      }}]
+      attrs: [
+        {},
+        [{
+          value: '3',
+          label: 'RUNNING'
+        }, 
+        {
+          value: '4',
+          label: 'PENDING'
+        }]
+      ]
     }
     return {
-      components: freeze([project, dc_code, id, isOpen, use_case, status]),
+      components: freeze([project, dc_code, id, isOpen, use_case, status, customer]),
     }
   },
 

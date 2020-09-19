@@ -6,7 +6,7 @@
         v-on="$listeners"
     >
         <template
-            v-for="({formItem, element, attrs, methods, change, focus, options, controlled, field}, index) in list"
+            v-for="({formItem, createElement, element, attrs, methods, change, focus, options, controlled, field}, index) in list"
         >
             <Customer
                 element="el-form-item"
@@ -16,14 +16,15 @@
                 v-bind="formItem"
             >
                 <Customer
+                    size="small"
                     :element="element"
                     v-model="form[field.name]"
-                    size="small"
                     :options="asyncOptions[field.name] || options"
                     @change="change && matchCallback(field.name)('change')"
                     @focus="focus && matchCallback(field.name)('focus')"
                     :attrs="attrs"
                     :methods="methods"
+                    :createElement="createElement"
                 >
                 </Customer>
             </Customer>
@@ -51,6 +52,12 @@ function dataType(type) {
 }
 export default {
     name: 'NetForm',
+
+    provide() {
+        return {
+            currentInstance: this.$parent
+        }
+    },
 
     components: {Customer},
 
