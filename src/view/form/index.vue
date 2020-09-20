@@ -175,8 +175,8 @@ export default {
           type: 'string'
       },
       formItem: {
-          label: '状态',
-          rules: {required: true, message: '请至少选择一个活动性质', trigger: 'change'}
+        label: '状态',
+        rules: {required: true, message: '请至少选择一个活动性质', trigger: 'change'}
       },
       element: ['el-radio-group', ['el-radio-button', 'el-radio-button']],
       controlled: 'isOpen',
