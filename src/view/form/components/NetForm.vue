@@ -80,16 +80,15 @@ export default {
 
     watch: {
 
-      callbacksQueue(Queue) { // 处理callbacks函数，异步函数
+      async callbacksQueue(Queue) { // 处理callbacks函数，异步函数
 
           if (Queue.length === 0) return// 防止死循环
 
           for (const {field, async} of Queue) {
 
-            if (!async || field in this.asyncOptions) continue// 如果之前请求了，使用缓存，不再次请求
+            if (!async || field.name in this.asyncOptions) continue// 如果之前请求了，使用缓存，不再次请求
 
-            this.matchCallback(field)('async')
-
+            await this.matchCallback(field.name)('async')
           }
 
           this.callbacksQueue = []// callbacksQueue watcher 执行后将重新把wather放入队列
@@ -174,7 +173,7 @@ export default {
 
         collectCallbackToMap({ field, callback }) {
             if (!callback) return
-            this.callbacksMap[field] = (...params) => callback(...params, key => (...params) => this.matchCallback(key)(...params), { ...this.form })
+            this.callbacksMap[field.name] = (...params) => callback(...params, key => (...params) => this.matchCallback(key)(...params), { ...this.form })
         },
 
         matchCallback(key) {
@@ -182,7 +181,7 @@ export default {
             return async (sign) => {
 
                 const result = this.callbacksMap[key](sign)
-
+                
                 if (isPromise(result)) {
 
                   const data = await result
