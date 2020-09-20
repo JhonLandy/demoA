@@ -45,20 +45,20 @@ export default {
             type: 'string'
         },
         element: 'el-switch',
-        formItem: { label: '开关'},
+        formItem: { label: '控制实例ID'},
         methods: {
             change: () => {
               console.log(this)
             }
         }
     }
-    const dc_code =  {
+    const dc_code1 =  {
       formItem: {
-          label: '区域',
+          label: '模式一',
           rules: {required: true, message: '请选择活动区域', trigger: 'change'}
       },
       field: {
-          name: 'dc_code',
+          name: 'dc_code1',
           type: 'array'
       },
       //第一种方式
@@ -80,33 +80,44 @@ export default {
           [{label: '北京'},  [{label: 'beijing',   value: '1'}]]
         ]
       ]
-      //第二种方式
-      // element: [//数组内不能写数组
-      // 'el-select', 
-      // 'el-option-group', //el-select子节点，根据options的数据生成对应数量
-      // 'el-option'    //el-option-group子节点，根据options的数据生成对应数量
-      // ],//用于option所选项
-      // options: [//这种方式也可以
-      //   {
-      //     label: '广东',
-      //     options:[ 
-      //       {
-      //         label: 'guangdong',
-      //         value: '0'
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     label: '北京',
-      //     options:[
-      //       {
-      //         label: 'beijing',
-      //         value: '1'
-      //       }
-      //     ]
-      //   }
-      // ]
+      
     }
+    const dc_code2 = {
+        formItem: {
+          label: '模式二',
+          rules: {required: true, message: '请选择活动区域', trigger: 'change'}
+        },
+        field: {
+          name: 'dc_code2',
+          type: 'array'
+        },
+        element: [//数组内不能写数组
+        'el-select', 
+        'el-option-group', //el-select子节点，根据options的数据生成对应数量
+        'el-option'    //el-option-group子节点，根据options的数据生成对应数量
+        ],//用于option所选项
+        options: [//这种方式也可以
+          {
+            label: '广东',
+            options:[ 
+              {
+                label: 'guangdong',
+                value: '0'
+              }
+            ]
+          },
+          {
+            label: '北京',
+            options:[
+              {
+                label: 'beijing',
+                value: '1'
+              }
+            ]
+          }
+        ]
+    }
+
     const use_case = {
       element: ['el-radio-group','el-radio-button'],
       field: {
@@ -192,8 +203,50 @@ export default {
         }]
       ]
     }
+
+    const callback = {
+      field: {
+          name: 'callback',
+          type: 'string'
+      },
+      formItem: {
+        label: '回调函数',
+        rules: {required: true, message: '请至少选择一个活动性质', trigger: 'change'}
+      },
+      element: ['el-select', 'el-option-group', 'el-option'],
+      focus: true,//表示focus时执行callback函数
+      change: true,//表示change时执行callback函数
+      async:true,//表示开启初始化执行callback函数
+      callback: (sign, c, d) => {
+
+        console.log(sign, c, d)
+
+        return new Promise((resolve) => {
+          resolve([
+            {
+              label: '广东',
+              options:[ 
+                {
+                  label: 'guangdong',
+                  value: '0'
+                }
+              ]
+            },
+            {
+              label: '北京',
+              options:[
+                {
+                  label: 'beijing',
+                  value: '1'
+                }
+              ]
+            }
+          ])
+        })
+      }
+    }
     return {
-      components: freeze([project, dc_code, id, isOpen, use_case, status, customer]),
+      components: freeze([project, dc_code1, dc_code2, id, isOpen, use_case, status, customer, callback]),
     }
   },
 
