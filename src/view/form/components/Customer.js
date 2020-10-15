@@ -135,11 +135,10 @@ export default {
             Error(_element, '第一个元素不能为数组！')
             return
         }
-        console.log(_element, _data)
-        const compose  =
-                options //根据options选项来选择模式
-                ? composeOptions.bind(_this, h, element, attrs, methods, options, index + 1)
-                : composeElements.bind(_this, h, element, attrs, methods, index + 1)
+
+        const compose  = options //根据options选项来选择模式
+            ? composeOptions.bind(_this, h, element, attrs, methods, options, index + 1)
+            : composeElements.bind(_this, h, element, attrs, methods, index + 1)
 
         return h(_element,dataAssign(_data, { attrs: _attrs, on: mapMethods.call(_this, _methods)}), children || compose())
 
