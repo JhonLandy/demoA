@@ -71,18 +71,17 @@ function isObject(o) {
 export default {
     name: "Table",
     provide() {
-        const provide = {}
+        const provide = {instance: this.$parent, data: {}}
         const provideData = this.provide
         if (!provideData) return provide
         for (const key in provideData) {
             if (isObject(provideData[key])) {
-                provide[key] = Object.assign({}, provideData[key])
-                provide[key] = Object.freeze(provide[key])//冻结参数，避免产生大量闭包
+                provide.data[key] = {...provideData[key]}
             } else {
-                provide[key] = provideData[key]
+                provide.data[key] = provideData[key]
             }
         }
-        return Object.freeze(provide)
+        return Object.freeze(provide)//冻结参数，避免产生大量闭包
     },
     props: {
         provide: {

@@ -9,6 +9,7 @@
         :checked="checked"
         @row-dblclick="dbClick"
         @test="doRecover"
+        :provide="{ad: 2}"
     >
         <template v-slot:toolbarT>
             <el-button size="small" @click="doRefresh">刷新</el-button>
@@ -174,6 +175,7 @@
                 })
              },
              dbClick() {
+                console.log(this)
                  this.$message({
                      message: '你双击了！',
                      type: 'success'

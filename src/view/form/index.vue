@@ -1,7 +1,8 @@
 <template>
     <net-form ref="from" name="form" :elements="components" label-width="100px">
-      <template v-slot:button="{handleSubmit}">
-        <el-button @click="valid(handleSubmit)">提交</el-button>
+      <template v-slot:button="{handleSubmit}" >
+        <el-button size="small" @click="valid(handleSubmit)">取消</el-button>
+        <el-button type="primary" size="small" @click="valid(handleSubmit)">提交</el-button>
       </template>
     </net-form>
 </template>
@@ -63,24 +64,24 @@ export default {
       },
       //第一种方式
       element: [
-        'el-select', 
+        'el-select',
         [
-          ['el-option-group', 
+          ['el-option-group',
             ['el-option']//这数组存放el-option-group子节点el-option，多个的话就在数组写多个
-          ], 
-          ['el-option-group', 
-            ['el-option']//这数组存放el-option-group子节点el-option，多个的话就在数组写多个
+          ],
+          ['el-option-group',
+            ['el-option', 'el-option']//这数组存放el-option-group子节点el-option，多个的话就在数组写多个
           ]
         ],
       ],
       attrs: [//和element格式一一对应
-        {multiple: true, filterable: true}, 
+        {multiple: true, filterable: true},
         [
           [{label: '广东'},  [{label: 'guangdong', value: '0'}]],
-          [{label: '北京'},  [{label: 'beijing',   value: '1'}]]
+          [{label: '北京'},  [{label: 'beijing1',   value: '1'}, {label: 'beijing2',   value: '2'}]]
         ]
       ]
-      
+
     }
     const dc_code2 = {
         formItem: {
@@ -89,17 +90,26 @@ export default {
         },
         field: {
           name: 'dc_code2',
-          type: 'array'
+          // type: 'array'//单选就不要开了，会自动触发验证
         },
         element: [//数组内不能写数组
-        'el-select', 
-        'el-option-group', //el-select子节点，根据options的数据生成对应数量
-        'el-option'    //el-option-group子节点，根据options的数据生成对应数量
+          'el-select',
+          'el-option-group', //el-select子节点，根据options的数据生成对应数量
+          'el-option'    //el-option-group子节点，根据options的数据生成对应数量
         ],//用于option所选项
+        attrs: [//和element格式一一对应
+          {filterable: true},
+          {
+            style: 'background:red'//设置颜色
+          },
+          {
+            style: 'background:green'//设置颜色
+          }
+        ],
         options: [//这种方式也可以
           {
             label: '广东',
-            options:[ 
+            options:[
               {
                 label: 'guangdong',
                 value: '0'
@@ -119,20 +129,18 @@ export default {
     }
 
     const use_case = {
-      element: ['el-radio-group','el-radio-button'],
+      element: ['el-radio-group', 'el-radio-button'],
       field: {
         name: 'use_case',
         type: 'string'
       },
-      methods: [{
-        change: () => {
-          console.log('开光')
-        }
-      }, {
-        change: () => {
-          console.log('开光')
-        }
-      }],
+      methods: [//原生事件（native）暂时无法绑定
+          {
+            change: () => {
+              console.log('change1')
+            }
+          },
+      ],
       formItem: {
         label: '用途',
         rules: {required: true, message: '请选择时间', trigger: 'change'}
@@ -157,24 +165,24 @@ export default {
         name: 'customer',
         type: 'string'
       },
-      createElement(create) {
+      createElement(create) {//推荐使用这种，内存开销相对较小， 数量大的时候尤为明显
         return create('el-radio-group', {
             attrs: {
               size: 'small'
             },
         },
-        [ create('el-radio-button', {
+        [create('el-radio-button', {
             attrs: {
               value: '1',
               label: '自定义组件1'
             }
-          }), 
-          create('el-radio-button', {
+         }),
+         create('el-radio-button', {
             attrs: {
               value: '2',
               label: '自定义组件2'
             }
-          }
+         }
         )]
         )
       }
@@ -196,7 +204,7 @@ export default {
         [{
           value: '3',
           label: 'RUNNING'
-        }, 
+        },
         {
           value: '4',
           label: 'PENDING'
@@ -225,7 +233,11 @@ export default {
           resolve([
             {
               label: '广东',
+<<<<<<< HEAD
               options:[ 
+=======
+              options:[
+>>>>>>> 5a1bf73af42916470029fec671f98a78242888ea
                 {
                   label: 'guangdong',
                   value: '0'
@@ -256,6 +268,7 @@ export default {
 
   methods: {
       valid(handleSubmit) {
+        console.log(this.$refs['from'])
         const [isPass, fields] = handleSubmit()
         console.log(isPass, fields)
       }

@@ -29,8 +29,8 @@ function composeOptions(createElement, elements, attrs, methods, options, index)
     if (!_element || !options) return
 
     return options.map(({
-        label, 
-        value, 
+        label,
+        value,
         options: _options
     }) => createElement(
         _element,
@@ -42,20 +42,20 @@ function composeOptions(createElement, elements, attrs, methods, options, index)
 function composeElements(createElement, elements, attrs, methods, index) {//用于数组内嵌数组写法
 
     const [_element, _attrs, _methods] = adapterMaster(elements, attrs, methods, index)
-    
+
     if (!_element) return
 
     if (isArray(_element)) {//判断孩子层级是否有多元素组合在一起
 
         return _element.map((_$element, _$index) => composeElements(createElement, _$element, _attrs[_$index],  mapMethods.call(this, _methods[_$index]), 0))
-    
+
     } else {
-        
+
         return createElement(
             _element,
             dataAssign({},{attrs: _attrs, on:  mapMethods.call(this, _methods)}),
             isArray(elements) //是数组的话说明他有孩子，继续递归；没有孩子就给 void 0(undefind)
-            ? composeElements(createElement, elements, attrs, methods, index + 1) 
+            ? composeElements(createElement, elements, attrs, methods, index + 1)
             : void 0
         )
     }
@@ -63,7 +63,7 @@ function composeElements(createElement, elements, attrs, methods, index) {//用�
 
 function Error(element, msg) {
     const error = console.error
-    
+
     error(`警告：${element}元素${msg}`)
 }
 
@@ -112,11 +112,11 @@ export default {
         const _this = injections.currentInstance
 
         if (props.createElement) {//自定义组件的话直接返回vnode
-            
+
             return props.createElement.call(_this, (elements, data = {}, childrens) => {
 
                 return h(
-                    elements, 
+                    elements,
                     dataAssign(_data, { attrs: data.attrs, on: mapMethods.call(_this, data.methods)}),
                     isArray(childrens) ? childrens : [childrens]
                 )
@@ -136,10 +136,9 @@ export default {
             return
         }
 
-        const compose  =  
-                options //根据options选项来选择模式
-                ? composeOptions.bind(_this, h, element, attrs, methods, options, index + 1) 
-                : composeElements.bind(_this, h, element, attrs, methods, index + 1)
+        const compose  = options //根据options选项来选择模式
+            ? composeOptions.bind(_this, h, element, attrs, methods, options, index + 1)
+            : composeElements.bind(_this, h, element, attrs, methods, index + 1)
 
         return h(_element,dataAssign(_data, { attrs: _attrs, on: mapMethods.call(_this, _methods)}), children || compose())
 

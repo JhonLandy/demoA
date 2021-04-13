@@ -10,7 +10,7 @@
 <script>
 
 export default  {
-    name: "FormComponent",
+    name: "TableComponent",
     props: {
        type: {
            required: true
