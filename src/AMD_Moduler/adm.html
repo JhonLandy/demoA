@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="/amd.js"></script>
+    <script>
+        setConfig({
+            'module1': '/module1.js'
+        })
+        setConfig({
+            'module2': '/module2.js'
+        })
+        define('module3', ['module1', 'module2'], function(m1, m2) {
+            console.log(m1, m2)
+            console.log('module3')
+            return {
+                ab: '2'
+            }
+        })
+    </script>
+</body>
+</html>
